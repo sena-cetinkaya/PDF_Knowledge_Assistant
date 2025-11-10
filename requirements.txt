@@ -1,0 +1,6 @@
+torch~=2.9.0
+fastapi~=0.121.1
+pydantic~=2.12.4
+langchain~=0.2.16
+streamlit~=1.51.0
+requests~=2.32.5
