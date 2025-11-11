@@ -9,19 +9,20 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(CHROMA_DB_DIR, exist_ok=True)
 
 def process_pdf(file_path: str):
-    # PDF yükleme
+    # Upload PDF / PDF yükleme
     loader = PyPDFLoader(file_path)
     data = loader.load()
 
-    # Metni parçalara ayırma
+    # Breaking the text into parts / Metni parçalara ayırma
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=200)
     text_chunks = text_splitter.split_documents(data)
 
-    # Embeddings oluştur
+    # Create embeddings / Embeddings oluştur
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL, model_kwargs={"device": device})
 
-    # Chroma veritabanı oluştur
+    # Create Chrome database / Chroma veritabanı oluştur
     vector_store = Chroma.from_documents(text_chunks, embeddings, persist_directory=CHROMA_DB_DIR)
     vector_store.persist()
 
-    return {"message": "PDF başarıyla işlendi ve veritabanına kaydedildi."}
+    return {"message": "The PDF was successfully processed and saved to the database."}
+
